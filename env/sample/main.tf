@@ -40,18 +40,27 @@ resource "aws_route_table" "iac-route-table" {
 }
 
 # Subnet
-resource "aws_subnet" "iac-subnet" {
+resource "aws_subnet" "iac-subnet1" {
   vpc_id            = aws_vpc.iac-vpc.id
-  cidr_block        = var.subnet_cidr
-  availability_zone = var.subnet_az
+  cidr_block        = var.subnet_cidr[0]
+  availability_zone = var.subnet_az[0]
   tags = {
-    Name = "iac-subnet"
+    Name = "iac-subnet1"
+  }
+}
+
+resource "aws_subnet" "iac-subnet2" {
+  vpc_id            = aws_vpc.iac-vpc.id
+  cidr_block        = var.subnet_cidr[1]
+  availability_zone = var.subnet_az[1]
+  tags = {
+    Name = "iac-subnet2"
   }
 }
 
 # Subnet to Route table
 resource "aws_route_table_association" "iac-association" {
-  subnet_id      = aws_subnet.iac-subnet.id
+  subnet_id      = aws_subnet.iac-subnet1.id
   route_table_id = aws_route_table.iac-route-table.id
 }
 
@@ -95,7 +104,7 @@ resource "aws_security_group" "iac-security-group" {
 
 # ENI
 resource "aws_network_interface" "iac-eni" {
-  subnet_id       = aws_subnet.iac-subnet.id
+  subnet_id       = aws_subnet.iac-subnet1.id
   private_ips     = [var.eni_private_ip]
   security_groups = [aws_security_group.iac-security-group.id]
 }
@@ -112,7 +121,7 @@ resource "aws_eip" "iac-eip" {
 resource "aws_instance" "iac-instance" {
   ami               = var.ec2_ami
   instance_type     = var.ec2_instance_type
-  availability_zone = var.subnet_az
+  availability_zone = var.subnet_az[0]
   key_name          = "iac-key"
 
   network_interface {

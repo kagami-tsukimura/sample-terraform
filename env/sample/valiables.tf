@@ -8,14 +8,14 @@ variable "vpc_cidr" {
 # Subnet
 variable "subnet_cidr" {
   description = "cidr block for subnet"
-  default     = "10.0.1.0/24"
-  type        = string
+  default     = ["10.0.1.0/24", "10.0.2.0/24"]
+  type        = list(string)
 }
 
 variable "subnet_az" {
   description = "AZ for subnet"
-  default     = "ap-northeast-1a"
-  type        = string
+  default     = ["ap-northeast-1a", "ap-northeast-1c"]
+  type        = list(string)
 }
 
 # ENI
