@@ -1,13 +1,15 @@
 # Configure the AWS Provider
 provider "aws" {
-  region     = "ap-northeast-1"
+  region = var.aws_region
+  # echo 'export TF_VAR_aws_access_key=YOUR_ACCESS_KEY' >> ~/.bashrc
   access_key = var.aws_access_key
+  # echo 'export TF_VAR_aws_secret_key=YOUR_SECRET_KEY' >> ~/.bashrc
   secret_key = var.aws_secret_key
 }
 
 # VPC
 resource "aws_vpc" "iac-vpc" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block = var.vpc_cidr
   tags = {
     Name = "iac-vpc"
   }
@@ -25,11 +27,11 @@ resource "aws_internet_gateway" "iac-igw" {
 resource "aws_route_table" "iac-route-table" {
   vpc_id = aws_vpc.iac-vpc.id
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = var.ipv4_full_open_cidr
     gateway_id = aws_internet_gateway.iac-igw.id
   }
   route {
-    ipv6_cidr_block = "::/0"
+    ipv6_cidr_block = var.ipv6_full_open_cidr
     gateway_id      = aws_internet_gateway.iac-igw.id
   }
   tags = {
@@ -40,8 +42,8 @@ resource "aws_route_table" "iac-route-table" {
 # Subnet
 resource "aws_subnet" "iac-subnet" {
   vpc_id            = aws_vpc.iac-vpc.id
-  cidr_block        = "10.0.1.0/24"
-  availability_zone = "ap-northeast-1a"
+  cidr_block        = var.subnet_cidr
+  availability_zone = var.subnet_az
   tags = {
     Name = "iac-subnet"
   }
@@ -64,27 +66,27 @@ resource "aws_security_group" "iac-security-group" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.ipv4_full_open_cidr]
   }
   ingress {
     description = "HTTP"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.ipv4_full_open_cidr]
   }
   ingress {
     description = "SSH"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.ipv4_full_open_cidr]
   }
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.ipv4_full_open_cidr]
   }
   tags = {
     Name = "iac-security-group"
@@ -94,7 +96,7 @@ resource "aws_security_group" "iac-security-group" {
 # ENI
 resource "aws_network_interface" "iac-eni" {
   subnet_id       = aws_subnet.iac-subnet.id
-  private_ips     = ["10.0.1.50"]
+  private_ips     = [var.eni_private_ip]
   security_groups = [aws_security_group.iac-security-group.id]
 }
 
@@ -102,15 +104,15 @@ resource "aws_network_interface" "iac-eni" {
 resource "aws_eip" "iac-eip" {
   domain                    = "vpc"
   network_interface         = aws_network_interface.iac-eni.id
-  associate_with_private_ip = "10.0.1.50"
+  associate_with_private_ip = var.eni_private_ip
   depends_on                = [aws_internet_gateway.iac-igw, aws_instance.iac-instance]
 }
 
-# Webサーバ
+# EC2
 resource "aws_instance" "iac-instance" {
-  ami               = "ami-035d55281a86f9439"
-  instance_type     = "t2.micro"
-  availability_zone = "ap-northeast-1a"
+  ami               = var.ec2_ami
+  instance_type     = var.ec2_instance_type
+  availability_zone = var.subnet_az
   key_name          = "iac-key"
 
   network_interface {
