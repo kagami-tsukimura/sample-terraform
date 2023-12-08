@@ -1,12 +1,3 @@
-# Configure the AWS Provider
-provider "aws" {
-  region = var.aws_region
-  # echo 'export TF_VAR_aws_access_key=YOUR_ACCESS_KEY' >> ~/.bashrc
-  access_key = var.aws_access_key
-  # echo 'export TF_VAR_aws_secret_key=YOUR_SECRET_KEY' >> ~/.bashrc
-  secret_key = var.aws_secret_key
-}
-
 # VPC
 resource "aws_vpc" "iac-vpc" {
   cidr_block = var.vpc_cidr
