@@ -1,36 +1,36 @@
 resource "aws_subnet" "public_1a" {
   vpc_id = var.vpc_id
 
-  availability_zone = "ap-northeast-1a"
+  availability_zone = "${var.region}a"
 
-  cidr_block = "10.0.1.0/24"
+  cidr_block = var.public_subnet_cidr[0]
 
   tags = {
-    Name = "handson-public-1a"
+    Name = "public-1a"
   }
 }
 
 resource "aws_subnet" "public_1c" {
   vpc_id = var.vpc_id
 
-  availability_zone = "ap-northeast-1c"
+  availability_zone = "${var.region}c"
 
-  cidr_block = "10.0.2.0/24"
+  cidr_block = var.public_subnet_cidr[1]
 
   tags = {
-    Name = "handson-public-1c"
+    Name = "public-1c"
   }
 }
 
 resource "aws_subnet" "public_1d" {
   vpc_id = var.vpc_id
 
-  availability_zone = "ap-northeast-1d"
+  availability_zone = "${var.region}d"
 
-  cidr_block = "10.0.3.0/24"
+  cidr_block = var.public_subnet_cidr[2]
 
   tags = {
-    Name = "handson-public-1d"
+    Name = "public-1d"
   }
 }
 
@@ -38,32 +38,32 @@ resource "aws_subnet" "public_1d" {
 resource "aws_subnet" "private_1a" {
   vpc_id = var.vpc_id
 
-  availability_zone = "ap-northeast-1a"
-  cidr_block        = "10.0.10.0/24"
+  availability_zone = "${var.region}a"
+  cidr_block        = var.private_subnet_cidr[0]
 
   tags = {
-    Name = "handson-private-1a"
+    Name = "private-1a"
   }
 }
 
 resource "aws_subnet" "private_1c" {
   vpc_id = var.vpc_id
 
-  availability_zone = "ap-northeast-1c"
-  cidr_block        = "10.0.20.0/24"
+  availability_zone = "${var.region}c"
+  cidr_block        = var.private_subnet_cidr[1]
 
   tags = {
-    Name = "handson-private-1c"
+    Name = "private-1c"
   }
 }
 
 resource "aws_subnet" "private_1d" {
   vpc_id = var.vpc_id
 
-  availability_zone = "ap-northeast-1d"
-  cidr_block        = "10.0.30.0/24"
+  availability_zone = "${var.region}d"
+  cidr_block        = var.private_subnet_cidr[2]
 
   tags = {
-    Name = "handson-private-1d"
+    Name = "private-1d"
   }
 }
