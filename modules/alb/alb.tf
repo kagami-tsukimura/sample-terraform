@@ -1,40 +1,59 @@
-resource "aws_security_group" "alb" {
-  name        = "from-alb-sg"
-  description = "from alb"
-  vpc_id      = var.vpc_id
+resource "aws_lb" "alb_waf" {
+  load_balancer_type = "application"
+  name               = "alb-waf"
 
-  ingress {
-    description = "Request From HTTP"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = [var.ipv4_full_open_cidr]
+  security_groups = ["${var.security_group_id}"]
+  subnets         = var.public_subnet_ids
+}
+
+resource "aws_wafv2_ip_set" "allow_cidr_waf" {
+  name               = "web-application-ip-addresses"
+  scope              = "REGIONAL"
+  ip_address_version = "IPV4"
+  addresses          = var.allow_waf_cidr
+}
+
+resource "aws_wafv2_web_acl" "example_acl" {
+  name  = "web-application-alb-waf"
+  scope = "REGIONAL"
+
+  default_action {
+    allow {}
   }
 
-  ingress {
-    description = "Request From HTTPS"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = [var.ipv4_full_open_cidr]
+  visibility_config {
+    cloudwatch_metrics_enabled = true
+    metric_name                = "${aws_wafv2_ip_set.allow_cidr_waf.name}-Waf-Metric"
+    sampled_requests_enabled   = true
   }
 
-  ingress {
-    description = "Request From SSH"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = [var.ipv4_full_open_cidr]
+  rule {
+    name     = aws_wafv2_ip_set.allow_cidr_waf.name
+    priority = 1
+
+    action {
+      allow {}
+    }
+
+    statement {
+      ip_set_reference_statement {
+        arn = aws_wafv2_ip_set.allow_cidr_waf.arn
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "${aws_wafv2_ip_set.allow_cidr_waf.name}-Waf-Metric"
+      sampled_requests_enabled   = true
+    }
   }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = [var.ipv4_full_open_cidr]
-  }
+}
 
-  tags = {
-    Name = "from-alb-sg"
-  }
+resource "aws_wafv2_web_acl_association" "WafWebAclAssociation" {
+  resource_arn = aws_lb.alb_waf.arn
+  web_acl_arn  = aws_wafv2_web_acl.example_acl.arn
+  depends_on = [
+    aws_wafv2_web_acl.example_acl,
+  ]
 }

@@ -19,3 +19,12 @@ module "security_group" {
   vpc_id              = module.vpc.vpc_id
   ipv4_full_open_cidr = local.ipv4_full_open_cidr
 }
+
+module "alb" {
+  source = "../../modules/alb"
+
+  vpc_id            = module.vpc.vpc_id
+  security_group_id = module.security_group.alb_sg
+  public_subnet_ids = module.subnet.public_subnet_ids
+  allow_waf_cidr    = local.allow_waf_cidr
+}
