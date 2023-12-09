@@ -12,3 +12,10 @@ module "subnet" {
   public_subnet_cidr  = local.public_subnet_cidr
   private_subnet_cidr = local.private_subnet_cidr
 }
+
+module "security_group" {
+  source = "../../modules/security-group"
+
+  vpc_id              = module.vpc.vpc_id
+  ipv4_full_open_cidr = local.ipv4_full_open_cidr
+}
