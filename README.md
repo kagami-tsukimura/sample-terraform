@@ -61,6 +61,14 @@ Default output format [None]: json
 
 ## 実行
 
+`env/<各ディレクトリ>`にmain.tfがあるため起動したい環境に移動。
+
+```bash:
+cd env/alb-waf
+```
+
+terraformコマンドを実行。
+
 ```bash:
 terraform init
 terraform plan
