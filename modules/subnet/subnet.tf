@@ -1,9 +1,9 @@
 resource "aws_subnet" "public_1a" {
   vpc_id = var.vpc_id
 
-  availability_zone = "${var.region}a"
-
-  cidr_block = var.public_subnet_cidr[0]
+  availability_zone       = "${var.region}a"
+  cidr_block              = var.public_subnet_cidr[0]
+  map_public_ip_on_launch = true
 
   tags = {
     Name = "public-1a"
@@ -13,9 +13,9 @@ resource "aws_subnet" "public_1a" {
 resource "aws_subnet" "public_1c" {
   vpc_id = var.vpc_id
 
-  availability_zone = "${var.region}c"
-
-  cidr_block = var.public_subnet_cidr[1]
+  availability_zone       = "${var.region}c"
+  cidr_block              = var.public_subnet_cidr[1]
+  map_public_ip_on_launch = true
 
   tags = {
     Name = "public-1c"
@@ -25,9 +25,9 @@ resource "aws_subnet" "public_1c" {
 resource "aws_subnet" "public_1d" {
   vpc_id = var.vpc_id
 
-  availability_zone = "${var.region}d"
-
-  cidr_block = var.public_subnet_cidr[2]
+  availability_zone       = "${var.region}d"
+  cidr_block              = var.public_subnet_cidr[2]
+  map_public_ip_on_launch = true
 
   tags = {
     Name = "public-1d"
