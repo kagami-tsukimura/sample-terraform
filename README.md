@@ -58,6 +58,7 @@ Default output format [None]: json
 - tfstateファイルの管理に必要。
 - S3のバケット名は、`backend.tf`の変数`bucket`の値と同じにすること。
 - DynamoDBのテーブル名は、`backend.tf`の変数`dynamodb_table`の値と同じにすること。
+  - パーティションキーは`LockID`で`文字列`とする。
 
 ## 実行
 
