@@ -1,6 +1,5 @@
 resource "aws_subnet" "public_1a" {
-  vpc_id = var.vpc_id
-
+  vpc_id                  = var.vpc_id
   availability_zone       = "${var.region}a"
   cidr_block              = var.public_subnet_cidr[0]
   map_public_ip_on_launch = true
@@ -11,8 +10,7 @@ resource "aws_subnet" "public_1a" {
 }
 
 resource "aws_subnet" "public_1c" {
-  vpc_id = var.vpc_id
-
+  vpc_id                  = var.vpc_id
   availability_zone       = "${var.region}c"
   cidr_block              = var.public_subnet_cidr[1]
   map_public_ip_on_launch = true
@@ -23,8 +21,7 @@ resource "aws_subnet" "public_1c" {
 }
 
 resource "aws_subnet" "public_1d" {
-  vpc_id = var.vpc_id
-
+  vpc_id                  = var.vpc_id
   availability_zone       = "${var.region}d"
   cidr_block              = var.public_subnet_cidr[2]
   map_public_ip_on_launch = true
@@ -36,8 +33,7 @@ resource "aws_subnet" "public_1d" {
 
 # Private Subnets
 resource "aws_subnet" "private_1a" {
-  vpc_id = var.vpc_id
-
+  vpc_id            = var.vpc_id
   availability_zone = "${var.region}a"
   cidr_block        = var.private_subnet_cidr[0]
 
@@ -47,8 +43,7 @@ resource "aws_subnet" "private_1a" {
 }
 
 resource "aws_subnet" "private_1c" {
-  vpc_id = var.vpc_id
-
+  vpc_id            = var.vpc_id
   availability_zone = "${var.region}c"
   cidr_block        = var.private_subnet_cidr[1]
 
@@ -58,8 +53,7 @@ resource "aws_subnet" "private_1c" {
 }
 
 resource "aws_subnet" "private_1d" {
-  vpc_id = var.vpc_id
-
+  vpc_id            = var.vpc_id
   availability_zone = "${var.region}d"
   cidr_block        = var.private_subnet_cidr[2]
 

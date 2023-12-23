@@ -24,7 +24,6 @@ resource "aws_route_table" "route_table" {
 
 resource "aws_internet_gateway" "waf_igw" {
   vpc_id = aws_vpc.waf_vpc.id
-
   tags = {
     Name = "waf-igw"
   }

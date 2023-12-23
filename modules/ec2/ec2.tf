@@ -13,7 +13,6 @@ resource "aws_eip" "ec2-eip" {
   depends_on                = [var.igw, aws_instance.ec2]
 }
 
-
 # EC2
 resource "aws_instance" "ec2" {
   ami               = var.ec2_ami
