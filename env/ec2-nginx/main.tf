@@ -13,6 +13,7 @@ module "subnet" {
   region              = local.aws_region
   public_subnet_cidr  = local.public_subnet_cidr
   private_subnet_cidr = local.private_subnet_cidr
+  route_table_id      = module.vpc.route_table_id
 }
 
 module "security_group" {

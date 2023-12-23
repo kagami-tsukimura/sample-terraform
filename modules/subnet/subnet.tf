@@ -67,3 +67,19 @@ resource "aws_subnet" "private_1d" {
     Name = "private-1d"
   }
 }
+
+# Subnet to Route table
+resource "aws_route_table_association" "public_1a_association" {
+  subnet_id      = aws_subnet.public_1a.id
+  route_table_id = var.route_table_id
+}
+
+resource "aws_route_table_association" "public_1c_association" {
+  subnet_id      = aws_subnet.public_1c.id
+  route_table_id = var.route_table_id
+}
+
+resource "aws_route_table_association" "public_1d_association" {
+  subnet_id      = aws_subnet.public_1d.id
+  route_table_id = var.route_table_id
+}
