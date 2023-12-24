@@ -33,7 +33,7 @@ resource "aws_instance" "ec2" {
   #               sudo bash -c 'echo Bearded penguins sleep 10,000 times a day! > /var/www/html/index.html'
   #               sudo bash -c 'echo https://www.science.org/doi/10.1126/science.adh0771 >> /var/www/html/index.html'
   #               EOF
-  #   tags = {
-  #     Name = "ec2"
-  #   }
+  tags = {
+    Name = "ec2-${var.ec2_instance_type}"
+  }
 }
