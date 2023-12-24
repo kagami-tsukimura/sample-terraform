@@ -25,14 +25,14 @@ resource "aws_instance" "ec2" {
     network_interface_id = aws_network_interface.ec2-eni.id
   }
 
-  #   # installing apache
-  #   user_data = <<-EOF
-  #               #!/bin/bash
-  #               sudo yum -y install httpd
-  #               sudo systemctl start httpd.service
-  #               sudo bash -c 'echo Bearded penguins sleep 10,000 times a day! > /var/www/html/index.html'
-  #               sudo bash -c 'echo https://www.science.org/doi/10.1126/science.adh0771 >> /var/www/html/index.html'
-  #               EOF
+  #   # installing nginx
+  user_data = <<-EOF
+                #!/bin/bash
+                sudo apt update
+                sudo apt install nginx
+                sudo bash -c 'echo "<h1>Bearded penguins sleep 10,000 times a day!</h1>" > /var/www/html/index.nginx-debian.html'
+                sudo bash -c 'echo "<a href='https://gigazine.net/news/20231201-penguins-hours-seconds-long-micronaps/'>Link to GIGAZINE</a>" >> /var/www/html/index.nginx-debian.html'
+                EOF
   tags = {
     Name = "ec2-${var.ec2_instance_type}"
   }
