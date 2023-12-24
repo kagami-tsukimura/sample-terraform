@@ -30,7 +30,8 @@ resource "aws_instance" "ec2" {
                 #!/bin/bash
                 sudo apt update -y
                 sudo apt install nginx -y
-                sudo bash -c 'echo "<h1>Bearded penguins sleep 10,000 times a day!</h1>" > /var/www/html/index.nginx-debian.html'
+                sudo bash -c 'echo "<style>body { text-align: center; margin: 10vh auto; }</style>" > /var/www/html/index.nginx-debian.html'
+                sudo bash -c 'echo "<h1>Bearded penguins sleep 10,000 times a day!</h1>" >> /var/www/html/index.nginx-debian.html'
                 sudo bash -c 'echo "<a href='https://gigazine.net/news/20231201-penguins-hours-seconds-long-micronaps/'>Link to GIGAZINE</a>" >> /var/www/html/index.nginx-debian.html'
                 EOF
   tags = {
