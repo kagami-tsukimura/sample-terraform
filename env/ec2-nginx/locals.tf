@@ -5,7 +5,7 @@ locals {
   ipv6_full_open_cidr = "::/0"
   public_subnet_cidr  = ["10.1.1.0/24", "10.1.2.0/24", "10.1.3.0/24"]
   private_subnet_cidr = ["10.1.10.0/24", "10.1.20.0/24", "10.1.30.0/24"]
-  ec2_ami             = "ami-0f7b55661ecbbe44c"
+  ec2_ami             = "ami-07c589821f2b353aa"
   ec2_instance_type   = "t2.micro"
   eni_private_ip      = "10.1.1.50"
 }
