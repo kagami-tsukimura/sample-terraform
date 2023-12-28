@@ -5,7 +5,7 @@ on:
       - 'develop'
 
 env:
-  BUCKET_NAME: 'state-s3-bucket-xxx'
+  BUCKET_NAME: 'tfstate-s3-ec2'
   AWS_REGION: 'ap-northeast-1'
 jobs:
   TerraformPlan:
