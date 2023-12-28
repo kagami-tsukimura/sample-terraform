@@ -2,7 +2,7 @@ name: 'Terraform Apply'
 on:
   push:
     branches:
-      - 'develop'
+      - 'main'
 
 env:
   BUCKET_NAME: 'state-s3-bucket-xxx'
@@ -22,10 +22,6 @@ jobs:
           role-to-assume: ${{ secrets.IAM_ROLE_ARN }}
           role-session-name: samplerolesession
           aws-region: ${{ env.AWS_REGION }}
-      # Upload a file to AWS s3
-      - name: Copy index.html to s3
-        run: |
-          aws s3 cp ./index.html s3://${{ env.BUCKET_NAME }}/
 
       - name: 'Setup Terraform'
         uses: hashicorp/setup-terraform@v3
