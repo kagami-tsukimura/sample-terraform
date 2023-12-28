@@ -28,7 +28,7 @@ jobs:
           terraform_version: 1.6.5
 
       - name: Terraform Init
-        run: cd env/ec2-nginx; terraform init
+        run: cd env/ec2-nginx; terraform init; terraform state list
 
       - name: Terraform Format
         run: terraform fmt --recursive -write=false -check
