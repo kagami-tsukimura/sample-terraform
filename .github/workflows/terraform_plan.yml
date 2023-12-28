@@ -1,37 +1,37 @@
-name: 'Terraform Plan'
-on:
-  push:
-    branches:
-      - 'develop'
+# name: 'Terraform Plan'
+# on:
+#   push:
+#     branches:
+#       - 'develop'
 
-env:
-  AWS_REGION: 'ap-northeast-1'
-jobs:
-  TerraformPlan:
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-      - name: Git clone the repository
-        uses: actions/checkout@v3
-      - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: ${{ secrets.IAM_ROLE_ARN }}
-          role-session-name: samplerolesession
-          aws-region: ${{ env.AWS_REGION }}
+# env:
+#   AWS_REGION: 'ap-northeast-1'
+# jobs:
+#   TerraformPlan:
+#     runs-on: ubuntu-latest
+#     permissions:
+#       id-token: write
+#       contents: read
+#     steps:
+#       - name: Git clone the repository
+#         uses: actions/checkout@v3
+#       - name: configure aws credentials
+#         uses: aws-actions/configure-aws-credentials@v2
+#         with:
+#           role-to-assume: ${{ secrets.IAM_ROLE_ARN }}
+#           role-session-name: samplerolesession
+#           aws-region: ${{ env.AWS_REGION }}
 
-      - name: 'Setup Terraform'
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.6.5
+#       - name: 'Setup Terraform'
+#         uses: hashicorp/setup-terraform@v3
+#         with:
+#           terraform_version: 1.6.5
 
-      - name: Terraform Init
-        run: cd env/ec2-nginx; terraform init; terraform state list
+#       - name: Terraform Init
+#         run: cd env/ec2-nginx; terraform init;
 
-      - name: Terraform Format
-        run: terraform fmt --recursive -write=false -check
+#       - name: Terraform Format
+#         run: terraform fmt --recursive -write=false -check
 
-      - name: Terraform Plan
-        run: cd env/ec2-nginx; terraform plan
+#       - name: Terraform Plan
+#         run: cd env/ec2-nginx; terraform plan
