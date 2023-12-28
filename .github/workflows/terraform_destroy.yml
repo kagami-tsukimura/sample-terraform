@@ -1,8 +1,6 @@
 name: 'Terraform Destroy'
 on:
-  push:
-    branches:
-      - 'develop'
+  workflow_dispatch:
 
 env:
   BUCKET_NAME: 'state-s3-bucket-xxx'
