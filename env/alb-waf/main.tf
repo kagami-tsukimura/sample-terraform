@@ -1,7 +1,9 @@
 module "vpc" {
   source = "../../modules/vpc"
 
-  vpc_id = local.vpc_cidr
+  vpc_id              = local.vpc_cidr
+  ipv4_full_open_cidr = local.ipv4_full_open_cidr
+  ipv6_full_open_cidr = local.ipv6_full_open_cidr
 }
 
 module "subnet" {
@@ -11,6 +13,7 @@ module "subnet" {
   region              = local.aws_region
   public_subnet_cidr  = local.public_subnet_cidr
   private_subnet_cidr = local.private_subnet_cidr
+  route_table_id      = module.vpc.route_table_id
 }
 
 module "security_group" {
