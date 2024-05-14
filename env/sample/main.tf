@@ -129,7 +129,8 @@ resource "aws_instance" "iac-instance" {
               sudo bash -c 'echo Bearded penguins sleep 10,000 times a day! > /var/www/html/index.html'
               sudo bash -c 'echo https://www.science.org/doi/10.1126/science.adh0771 >> /var/www/html/index.html'
 
-              curl -LO https://raw.githubusercontent.com/kagami-tsukimura/shell-from-dev-container/main/pyminish
+              # curl -LO https://raw.githubusercontent.com/kagami-tsukimura/shell-from-dev-container/main/pyminish
+              curl https://raw.githubusercontent.com/kagami-tsukimura/shell-from-dev-container/main/pyminish >> pyminish
               chmod +x pyminish
               sudo mv pyminish /usr/local/bin/
               sudo adduser pyminish-user --shell /usr/local/bin/pyminish
